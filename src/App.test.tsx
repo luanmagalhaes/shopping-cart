@@ -1,8 +1,8 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import userEvent from '@testing-library/user-event';
 import CardContent from './pages/Home/components/CardContent';
+import Home from './pages/Home/index';
 
 describe('App Test', () => {
     test('it should show the Add to cart button', () => {
@@ -14,14 +14,26 @@ describe('App Test', () => {
         expect(addToCartButton).toBeInTheDocument();
     });
 
-    test('it should add + 1 into Typography component', () => {
-        render(<CardContent />);
+    test('it should add + 1 into Typography component', async () => {
+        render(
+            <>
+                <Home />
+                <CardContent />
+            </>,
+        );
 
-        const addToCartButton = screen.getByRole('button', {
-            name: /Adicionar/i,
-        });
+        async function fireClick() {
+            const addToCartButton = screen.getAllByRole('button', {
+                name: /Adicionar/i,
+            })[0];
 
-        userEvent.click(addToCartButton);
-        expect(screen.queryByText('1')).toBeNull();
+            await fireEvent.click(addToCartButton);
+
+            const typography = await screen.findByText('1');
+
+            expect(typography.textContent).toBe('1');
+        }
+
+        fireClick();
     });
 });
