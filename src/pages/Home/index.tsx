@@ -317,6 +317,11 @@ function Home() {
                         mb: 4,
                         width: '90%',
                     }}
+                    onClick={() =>
+                        window.open(
+                            `https://wa.me/5571993096528?text=Olá, testei sua aplicação!`,
+                        )
+                    }
                 >
                     <Badge
                         badgeContent={shoppingCart.length}

@@ -227,6 +227,11 @@ function DesktopHead({
                             height: 48,
                             width: 232,
                         }}
+                        onClick={() =>
+                            window.open(
+                                `https://wa.me/5571993096528?text=Olá, testei sua aplicação!`,
+                            )
+                        }
                     >
                         <Badge
                             badgeContent={shoppingCart.length}
