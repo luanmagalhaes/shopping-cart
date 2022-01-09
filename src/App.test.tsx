@@ -9,7 +9,7 @@ describe('App Test', () => {
         render(<CardContent />);
 
         const addToCartButton = screen.getByRole('button', {
-            name: /Add to cart/i,
+            name: /Adicionar/i,
         });
         expect(addToCartButton).toBeInTheDocument();
     });
@@ -18,8 +18,9 @@ describe('App Test', () => {
         render(<CardContent />);
 
         const addToCartButton = screen.getByRole('button', {
-            name: /Add to cart/i,
+            name: /Adicionar/i,
         });
+
         userEvent.click(addToCartButton);
         expect(screen.queryByText('1')).toBeNull();
     });
