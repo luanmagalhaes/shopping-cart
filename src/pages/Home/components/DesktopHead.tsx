@@ -33,6 +33,8 @@ function DesktopHead({
     maxPrice,
     setMaxPrice,
     sorting,
+    language,
+    setLanguage,
 }: any) {
     return (
         <Stack
@@ -98,7 +100,10 @@ function DesktopHead({
                     inputProps={{
                         background: colors.darkGray,
                         maxLength: 160,
-                        placeholder: 'Search for an item here!',
+                        placeholder:
+                            language === 'en-us'
+                                ? 'Search for an item here!'
+                                : 'Procure por um item aqui!',
                         spellCheck: false,
                     }}
                     sx={{
@@ -155,11 +160,31 @@ function DesktopHead({
                                 setRatingStars(event.target.value)
                             }
                         >
-                            <MenuItem value="1">1 and above</MenuItem>
-                            <MenuItem value="2">2 and above</MenuItem>
-                            <MenuItem value="3">3 and above</MenuItem>
-                            <MenuItem value="4">4 and above</MenuItem>
-                            <MenuItem value="5">5 stars</MenuItem>
+                            <MenuItem defaultChecked value="1">
+                                {language === 'en-us'
+                                    ? '1 and above'
+                                    : '1 ou mais'}
+                            </MenuItem>
+                            <MenuItem value="2">
+                                {language === 'en-us'
+                                    ? '2 and above'
+                                    : '2 ou mais'}
+                            </MenuItem>
+                            <MenuItem value="3">
+                                {language === 'en-us'
+                                    ? '3 and above'
+                                    : '3 ou mais'}
+                            </MenuItem>
+                            <MenuItem value="4">
+                                {language === 'en-us'
+                                    ? '4 and above'
+                                    : '4 ou mais'}
+                            </MenuItem>
+                            <MenuItem value="5">
+                                {language === 'en-us'
+                                    ? '5 stars'
+                                    : '5 estrelas'}
+                            </MenuItem>
                         </Select>
                     </FormControl>
                 </Stack>
@@ -181,11 +206,12 @@ function DesktopHead({
                         <Select
                             id="select-items"
                             label="LANGUAGE"
-                            defaultValue="en-us"
                             sx={{
                                 border: 'none',
                                 minWidth: 60,
                             }}
+                            value={language}
+                            onChange={event => setLanguage(event.target.value)}
                         >
                             <MenuItem defaultChecked value="en-us">
                                 English
@@ -233,13 +259,13 @@ function DesktopHead({
                         fontWeight: 600,
                         height: 40,
                         mr: 8,
-                        mt: 4,
+                        mt: 5,
                         textTransform: 'none',
                         width: 164,
                     }}
                     onClick={() => sorting()}
                 >
-                    Apply filters
+                    {language === 'en-us' ? 'Apply filters' : 'Filtrar'}
                 </Button>
             </Stack>
         </Stack>

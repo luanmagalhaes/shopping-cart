@@ -23,7 +23,9 @@ import paginationAdapter from '../../adapters/pagination';
 interface ProductProps {
     id: string;
     title: string;
+    titlePt: string;
     description: string;
+    descriptionPt: string;
     picture: { url: string };
     picturewebp: { url: string };
     price: number;
@@ -37,7 +39,9 @@ async function getData() {
             allProducts {
                 id
                 title
+                titlePt
                 description
+                descriptionPt
                 price
                 rating
                 picturewebp {
@@ -79,12 +83,20 @@ function Home() {
         [],
     );
     const [page, setPage] = useState(1);
+    const [language, setLanguage] = useState('en-us');
 
     const filteredSearch = () => {
-        const productFound = allProducts.filter((product: any) =>
-            product.title.startsWith(search),
-        );
-        setFilteredProducts(productFound);
+        if (language === 'en-us') {
+            const productFound = allProducts.filter((product: any) =>
+                product.title.startsWith(search),
+            );
+            setFilteredProducts(productFound);
+        } else {
+            const productFound = allProducts.filter((product: any) =>
+                product.titlePt.startsWith(search),
+            );
+            setFilteredProducts(productFound);
+        }
     };
 
     const sorting = () => {
@@ -184,6 +196,7 @@ function Home() {
                     sortBy={sortBy}
                     setSortBy={setSortBy}
                     sorting={sorting}
+                    language={language}
                 />
             ) : (
                 <DesktopHead
@@ -201,6 +214,8 @@ function Home() {
                     sortBy={sortBy}
                     setSortBy={setSortBy}
                     sorting={sorting}
+                    language={language}
+                    setLanguage={setLanguage}
                 />
             )}
             <Stack
@@ -213,7 +228,7 @@ function Home() {
             >
                 <FormControl size="small" sx={{ ml: 2 }}>
                     <InputLabel id="sorting-items" sx={{ fontSize: 10 }}>
-                        SORT BY
+                        {language === 'en-us' ? 'SORT BY' : 'ORDENAR'}
                     </InputLabel>
                     <Select
                         id="select-items"
@@ -228,8 +243,12 @@ function Home() {
                             sortingSelect(event.target.value);
                         }}
                     >
-                        <MenuItem value="Rating">Rating</MenuItem>
-                        <MenuItem value="Price">Price</MenuItem>
+                        <MenuItem value="Rating">
+                            {language === 'en-us' ? 'Rating' : 'Avaliação'}
+                        </MenuItem>
+                        <MenuItem value="Price">
+                            {language === 'en-us' ? 'Price' : 'Preço'}
+                        </MenuItem>
                     </Select>
                 </FormControl>
                 <Typography
@@ -243,7 +262,7 @@ function Home() {
                         setOpenModal(!openModal);
                     }}
                 >
-                    FILTERS
+                    {language === 'en-us' ? 'FILTERS' : 'FILTROS'}
                 </Typography>
             </Stack>
             <Stack
@@ -267,6 +286,7 @@ function Home() {
                         product={product}
                         shoppingCart={shoppingCart}
                         isMobile={isMobile}
+                        language={language}
                     />
                 ))}
             </Stack>

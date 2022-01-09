@@ -8,7 +8,9 @@ function CardContent({
     product = {
         id: '',
         title: '',
+        titlePt: '',
         description: '',
+        descriptionPt: '',
         rating: 0,
         onsale: false,
         picture: { url: '' },
@@ -21,6 +23,7 @@ function CardContent({
     addedToCart,
     shoppingCart = [],
     isMobile,
+    language = '',
 }: any) {
     return (
         <Stack
@@ -65,7 +68,9 @@ function CardContent({
                             color: colors.black,
                         }}
                     >
-                        Added to cart successfully!
+                        {language === 'en-us'
+                            ? 'Added to cart successfully!'
+                            : 'Adicionado ao carrinho!'}
                     </Alert>
                 </Stack>
             )}
@@ -105,7 +110,9 @@ function CardContent({
             </picture>
             <Stack sx={{ width: '90%' }}>
                 <Typography sx={{ height: 72, pb: 2 }}>
-                    {product.description}
+                    {language === 'en-us'
+                        ? product.description
+                        : product.descriptionPt}
                 </Typography>
                 <Stack
                     direction="row"
@@ -183,7 +190,7 @@ function CardContent({
                             pl: 2,
                         }}
                     >
-                        Added
+                        {language === 'en-us' ? 'Added' : 'Adicionado'}
                     </Typography>
                 </Button>
             ) : (
@@ -199,7 +206,7 @@ function CardContent({
                         );
                     }}
                 >
-                    Add to cart
+                    {language === 'en-us' ? 'Add to cart' : 'Adicionar'}
                 </Button>
             )}
         </Stack>

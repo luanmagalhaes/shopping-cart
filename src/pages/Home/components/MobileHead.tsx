@@ -20,6 +20,7 @@ function MobileHead({
     sortBy,
     setSortBy,
     sorting,
+    language,
 }: any) {
     return (
         <>
@@ -48,7 +49,10 @@ function MobileHead({
                     inputProps={{
                         background: colors.darkGray,
                         maxLength: 160,
-                        placeholder: 'Search for an item here!',
+                        placeholder:
+                            language === 'en-us'
+                                ? 'Search for an item here!'
+                                : 'Procure por um item aqui',
                         spellCheck: false,
                     }}
                     sx={{
@@ -84,6 +88,7 @@ function MobileHead({
                     sortBy={sortBy}
                     setSortBy={setSortBy}
                     sorting={sorting}
+                    language={language}
                 />
             )}
         </>

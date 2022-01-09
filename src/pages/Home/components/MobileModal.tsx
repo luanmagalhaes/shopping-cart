@@ -21,6 +21,7 @@ function MobileModal({
     maxPrice,
     setMaxPrice,
     sorting,
+    language,
 }: any) {
     return (
         <Stack
@@ -45,7 +46,7 @@ function MobileModal({
             >
                 <Stack gap={2}>
                     <Typography sx={{ fontWeight: 500, ml: 2, mt: 2 }}>
-                        FILTERS
+                        {language === 'en-us' ? 'FILTERS' : 'FILTROS'}
                     </Typography>
                     <FormControl size="small" sx={{ m: 1, width: '40%' }}>
                         <TextField
@@ -73,7 +74,7 @@ function MobileModal({
                     </FormControl>
                     <FormControl size="small" sx={{ ml: 1 }}>
                         <InputLabel id="sorting-items" sx={{ fontSize: 10 }}>
-                            RATING
+                            {language === 'en-us' ? 'RATING' : 'CLASSIFICAÇÃO'}
                         </InputLabel>
                         <Select
                             id="select-items"
@@ -88,12 +89,30 @@ function MobileModal({
                             }
                         >
                             <MenuItem defaultChecked value="1">
-                                1 and above
+                                {language === 'en-us'
+                                    ? '1 and above'
+                                    : '1 ou mais'}
                             </MenuItem>
-                            <MenuItem value="2">2 and above</MenuItem>
-                            <MenuItem value="3">3 and above</MenuItem>
-                            <MenuItem value="4">4 and above</MenuItem>
-                            <MenuItem value="5">5 stars</MenuItem>
+                            <MenuItem value="2">
+                                {language === 'en-us'
+                                    ? '2 and above'
+                                    : '2 ou mais'}
+                            </MenuItem>
+                            <MenuItem value="3">
+                                {language === 'en-us'
+                                    ? '3 and above'
+                                    : '3 ou mais'}
+                            </MenuItem>
+                            <MenuItem value="4">
+                                {language === 'en-us'
+                                    ? '4 and above'
+                                    : '4 ou mais'}
+                            </MenuItem>
+                            <MenuItem value="5">
+                                {language === 'en-us'
+                                    ? '5 stars'
+                                    : '5 estrelas'}
+                            </MenuItem>
                         </Select>
                     </FormControl>
                     <Stack
@@ -112,7 +131,7 @@ function MobileModal({
                                 setRatingStars(1);
                             }}
                         >
-                            Clear
+                            {language === 'en-us' ? 'Clear' : 'Limpar'}
                         </Button>
                         <Button
                             variant="outlined"
@@ -128,7 +147,7 @@ function MobileModal({
                                 closeModal(event);
                             }}
                         >
-                            Apply filters
+                            {language === 'en-us' ? 'Apply filters' : 'Filtrar'}
                         </Button>
                     </Stack>
                 </Stack>
