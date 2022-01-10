@@ -88,12 +88,12 @@ function Home() {
     const filteredSearch = () => {
         if (language === 'en-us') {
             const productFound = allProducts.filter((product: any) =>
-                product.title.startsWith(search),
+                product.title.startsWith(search.toLowerCase()),
             );
             setFilteredProducts(productFound);
         } else {
             const productFound = allProducts.filter((product: any) =>
-                product.titlePt.startsWith(search),
+                product.titlePt.startsWith(search.toLowerCase()),
             );
             setFilteredProducts(productFound);
         }
