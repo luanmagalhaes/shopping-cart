@@ -21,7 +21,6 @@ const logoPictureWebP = require('../pictures/logo.webp');
 const logoPicturePng = require('../pictures/logo.png');
 
 function DesktopHead({
-    shoppingCart = [],
     totalPrice = 0,
     search,
     setSearch,
@@ -35,95 +34,197 @@ function DesktopHead({
     sorting,
     language,
     setLanguage,
+    classes,
+    amountProducts,
 }: any) {
     return (
         <Stack
-            direction="row"
             sx={{
-                justifyContent: 'space-between',
+                alignItems: 'center',
+                justifyContent: 'center',
                 width: '100%',
             }}
         >
-            <Stack sx={{ bgcolor: colors.white, width: '33%' }}>
-                <picture>
-                    <source srcSet={logoPictureWebP} type="image/webp" />
-                    <source srcSet={logoPicturePng} type="image/png" />
-                    <img
-                        src={logoPicturePng}
-                        srcSet="$"
-                        alt="pic"
-                        loading="lazy"
-                        style={{
-                            cursor: 'pointer',
-                            height: 49,
-                            marginLeft: 40,
-                            marginTop: 24,
-                            width: 175,
-                        }}
-                    />
-                </picture>
-            </Stack>
             <Stack
-                gap={4}
+                direction="row"
                 sx={{
                     alignItems: 'center',
-                    height: 207,
-                    justifyContent: 'flex-start',
-                    width: '33%',
+                    height: 106,
+                    justifyContent: 'center',
+                    width: '100%',
                 }}
             >
-                <OutlinedInput
-                    data-testid="search-bar"
-                    fullWidth
-                    startAdornment={
-                        <InputAdornment position="start">
-                            <SearchIcon
-                                sx={{
-                                    color: colors.darkGray,
-                                    cursor: 'pointer',
-                                }}
-                                onClick={filteredSearch}
-                            />
-                        </InputAdornment>
-                    }
-                    endAdornment={
-                        <InputAdornment position="start">
-                            <CloseIcon
-                                color="primary"
-                                sx={{
-                                    cursor: 'pointer',
-                                }}
-                                onClick={() => setSearch('')}
-                            />
-                        </InputAdornment>
-                    }
-                    inputProps={{
-                        background: colors.darkGray,
-                        maxLength: 160,
-                        placeholder:
-                            language === 'en-us'
-                                ? 'Search for an item here!'
-                                : 'Procure por um item aqui!',
-                        spellCheck: false,
-                    }}
+                <Stack
+                    direction="row"
                     sx={{
-                        bgcolor: colors.gray,
-                        display: 'flex',
-                        flexDirection: 'row',
-                        height: 40,
-                        width: 291,
-                        mt: 4,
-                        mb: 2,
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        position: 'relative',
+                        width: 'calc(100% - 80px)',
                     }}
-                    value={search}
-                    onChange={(event: ChangeEvent<HTMLInputElement>) =>
-                        setSearch(event.target.value)
-                    }
-                />
-                <Stack direction="row">
-                    <FormControl size="small" sx={{ width: '40%' }}>
+                >
+                    <Stack sx={{ bgcolor: colors.white }}>
+                        <picture>
+                            <source
+                                srcSet={logoPictureWebP}
+                                type="image/webp"
+                            />
+                            <source srcSet={logoPicturePng} type="image/png" />
+                            <img
+                                src={logoPicturePng}
+                                srcSet="$"
+                                alt="pic"
+                                loading="lazy"
+                                style={{
+                                    cursor: 'pointer',
+                                    height: 49,
+                                    width: 175,
+                                }}
+                            />
+                        </picture>
+                    </Stack>
+                    <OutlinedInput
+                        data-testid="search-bar"
+                        fullWidth
+                        startAdornment={
+                            <InputAdornment position="start">
+                                <SearchIcon
+                                    sx={{
+                                        color: colors.darkGray,
+                                        cursor: 'pointer',
+                                    }}
+                                    onClick={filteredSearch}
+                                />
+                            </InputAdornment>
+                        }
+                        endAdornment={
+                            <InputAdornment position="start">
+                                <CloseIcon
+                                    color="primary"
+                                    sx={{
+                                        cursor: 'pointer',
+                                    }}
+                                    onClick={() => setSearch('')}
+                                />
+                            </InputAdornment>
+                        }
+                        inputProps={{
+                            background: colors.darkGray,
+                            maxLength: 160,
+                            placeholder:
+                                language === 'en-us'
+                                    ? 'Search for an item here!'
+                                    : 'Procure por um item aqui!',
+                            spellCheck: false,
+                        }}
+                        sx={{
+                            bgcolor: colors.gray,
+                            display: 'flex',
+                            flexDirection: 'row',
+                            height: 48,
+                            left: '50%',
+                            position: 'absolute',
+                            transform: 'translateX(-50%)',
+                            width: 438,
+                        }}
+                        value={search}
+                        onChange={(event: ChangeEvent<HTMLInputElement>) =>
+                            setSearch(event.target.value)
+                        }
+                    />
+
+                    <Stack direction="row" sx={{ alignItems: 'flex-end' }}>
+                        <FormControl
+                            variant="standard"
+                            size="small"
+                            sx={{ mr: 4 }}
+                        >
+                            <Select
+                                id="select-items"
+                                label="LANGUAGE"
+                                value={language}
+                                disableUnderline
+                                sx={{
+                                    border: 'none',
+                                    minWidth: 60,
+                                    pr: 1,
+                                }}
+                                onChange={event =>
+                                    setLanguage(event.target.value)
+                                }
+                            >
+                                <MenuItem defaultChecked value="en-us">
+                                    English
+                                </MenuItem>
+                                <MenuItem value="pt-br">Português</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <Button
+                            variant="contained"
+                            sx={{
+                                alignSelf: 'center',
+                                display: 'flex',
+                                height: 48,
+                                width: 232,
+                            }}
+                            onClick={() =>
+                                window.open(
+                                    `https://wa.me/5571993096528?text=Olá, testei sua aplicação!`,
+                                )
+                            }
+                        >
+                            <Badge
+                                badgeContent={amountProducts}
+                                color="error"
+                                sx={{
+                                    display: 'flex',
+                                    mr: 'auto',
+                                    zIndex: 0,
+                                }}
+                            >
+                                <ShoppingCartOutlinedIcon />
+                            </Badge>
+                            <Typography
+                                sx={{
+                                    fontSize: 16,
+                                    fontWeight: 600,
+                                    mr: { lg: '10%', xs: '20%' },
+                                    textTransform: 'none',
+                                }}
+                            >
+                                Sub total: {totalPrice.toFixed(2)} €
+                            </Typography>
+                        </Button>
+                    </Stack>
+                </Stack>
+            </Stack>
+            <Stack
+                direction="row"
+                sx={{
+                    alignItems: 'center',
+                    bgcolor: colors.graybg,
+                    height: 72,
+                    justifyContent: 'flex-end',
+                    position: 'relative',
+                    width: 'calc(100% - 80px)',
+                }}
+            >
+                <Stack
+                    direction="row"
+                    sx={{
+                        left: '50%',
+                        position: 'absolute',
+                        transform: 'translateX(-50%)',
+                    }}
+                >
+                    <FormControl
+                        color="success"
+                        size="small"
+                        sx={{ height: 36, width: 112 }}
+                    >
                         <TextField
                             id="outlined-adornment-amount"
+                            className={classes.root}
                             label="€ Max"
                             placeholder="€ Max"
                             size="small"
@@ -133,9 +234,13 @@ function DesktopHead({
                             }
                         />
                     </FormControl>
-                    <FormControl size="small" sx={{ ml: 2, width: '40%' }}>
+                    <FormControl
+                        size="small"
+                        sx={{ height: 36, ml: 2, width: 112 }}
+                    >
                         <TextField
                             id="outlined-adornment-amount"
+                            className={classes.root}
                             label="€ Min"
                             placeholder="€ Min"
                             size="small"
@@ -145,7 +250,14 @@ function DesktopHead({
                             }
                         />
                     </FormControl>
-                    <FormControl size="small" sx={{ ml: 2, width: '40%' }}>
+                    <FormControl
+                        size="small"
+                        sx={{
+                            height: 36,
+                            ml: 2,
+                            width: 136,
+                        }}
+                    >
                         <InputLabel id="sorting-items" sx={{ fontSize: 10 }}>
                             RATING
                         </InputLabel>
@@ -153,7 +265,14 @@ function DesktopHead({
                             id="select-items"
                             label="RATING"
                             sx={{
-                                border: '1px solid black',
+                                '.MuiSelect-select': {
+                                    borderColor: 'black',
+                                    border: 'none',
+                                    fontSize: 14,
+                                    fontWeight: 500,
+                                },
+                                border: 'none',
+                                fontSize: 10,
                             }}
                             value={ratingStars}
                             onChange={event =>
@@ -188,90 +307,20 @@ function DesktopHead({
                         </Select>
                     </FormControl>
                 </Stack>
-            </Stack>
-            <Stack
-                sx={{
-                    width: '33%',
-                }}
-            >
-                <Stack
-                    direction="row"
-                    sx={{
-                        mt: 4,
-                        alignItems: 'flex-end',
-                        justifyContent: 'space-evenly',
-                    }}
-                >
-                    <FormControl variant="standard" size="small" sx={{ ml: 2 }}>
-                        <Select
-                            id="select-items"
-                            label="LANGUAGE"
-                            sx={{
-                                border: 'none',
-                                minWidth: 60,
-                            }}
-                            value={language}
-                            onChange={event => setLanguage(event.target.value)}
-                        >
-                            <MenuItem defaultChecked value="en-us">
-                                English
-                            </MenuItem>
-                            <MenuItem value="pt-br">Português</MenuItem>
-                        </Select>
-                    </FormControl>
+                <Stack direction="row" sx={{ mr: 4 }}>
                     <Button
-                        variant="contained"
+                        variant="outlined"
                         sx={{
-                            alignSelf: 'center',
-                            display: 'flex',
-                            height: 48,
-                            width: 232,
+                            fontWeight: 600,
+                            height: 40,
+                            textTransform: 'none',
+                            width: 164,
                         }}
-                        onClick={() =>
-                            window.open(
-                                `https://wa.me/5571993096528?text=Olá, testei sua aplicação!`,
-                            )
-                        }
+                        onClick={() => sorting()}
                     >
-                        <Badge
-                            badgeContent={shoppingCart.length}
-                            color="error"
-                            sx={{
-                                display: 'flex',
-                                mr: 'auto',
-                                zIndex: 0,
-                            }}
-                        >
-                            <ShoppingCartOutlinedIcon />
-                        </Badge>
-                        <Typography
-                            sx={{
-                                fontSize: 16,
-                                fontWeight: 600,
-                                mr: { lg: '10%', xs: '20%' },
-                                textTransform: 'none',
-                            }}
-                        >
-                            Sub total: {totalPrice.toFixed(2)} €
-                        </Typography>
+                        {language === 'en-us' ? 'Apply filters' : 'Filtrar'}
                     </Button>
                 </Stack>
-                <Button
-                    variant="outlined"
-                    sx={{
-                        alignSelf: 'end',
-                        display: 'flex',
-                        fontWeight: 600,
-                        height: 40,
-                        mr: 8,
-                        mt: 5,
-                        textTransform: 'none',
-                        width: 164,
-                    }}
-                    onClick={() => sorting()}
-                >
-                    {language === 'en-us' ? 'Apply filters' : 'Filtrar'}
-                </Button>
             </Stack>
         </Stack>
     );
