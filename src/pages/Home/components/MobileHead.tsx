@@ -27,9 +27,10 @@ function MobileHead({
             <Stack
                 sx={{
                     alignItems: 'center',
-                    height: 84,
+                    height: 63,
                     flexDirection: 'row',
                     justifyContent: 'space-between',
+                    maxWidth: 365,
                 }}
             >
                 <OutlinedInput
@@ -60,8 +61,8 @@ function MobileHead({
                         display: 'flex',
                         flexDirection: 'row',
                         height: 40,
-                        width: 291,
                         ml: 2,
+                        width: 291,
                     }}
                     value={search}
                     onChange={(event: ChangeEvent<HTMLInputElement>) =>
