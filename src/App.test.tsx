@@ -14,7 +14,7 @@ describe('App Test', () => {
         expect(addToCartButton).toBeInTheDocument();
     });
 
-    test('it should add + 1 into Typography component', async () => {
+    test('it should add + 1 into Bagde component', async () => {
         render(
             <>
                 <Home />
@@ -29,9 +29,9 @@ describe('App Test', () => {
 
             await fireEvent.click(addToCartButton);
 
-            const typography = await screen.findByText('1');
+            const bagde = await screen.findByText('1');
 
-            expect(typography.textContent).toBe('1');
+            expect(bagde.textContent).toBe('1');
         }
 
         fireClick();
