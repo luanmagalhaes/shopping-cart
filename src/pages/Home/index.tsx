@@ -13,7 +13,8 @@ import {
     useTheme,
 } from '@mui/material';
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
-import { gql, GraphQLClient } from 'graphql-request';
+import { makeStyles } from '@material-ui/styles';
+import getData from '../../graphql.js';
 import colors from '../../assets/colors';
 import MobileHead from './components/MobileHead';
 import DesktopHead from './components/DesktopHead';
@@ -30,43 +31,60 @@ interface ProductProps {
     picturewebp: { url: string };
     price: number;
     rating: number;
-    onsale: boolean;
+    amount: number;
 }
 
-async function getData() {
-    const query = gql`
-        query {
-            allProducts {
-                id
-                title
-                titlePt
-                description
-                descriptionPt
-                price
-                rating
-                picturewebp {
-                    url
-                }
-                picture {
-                    url
-                }
-                onsale
-            }
-        }
-    `;
-
-    const endpoint = 'https://graphql.datocms.com/';
-    const graphQLClient = new GraphQLClient(endpoint, {
-        headers: {
-            'content-type': 'application/json',
-            authorization: 'Bearer f46ee2ea99fe2c706e118c9d0afd30',
+const useStyles = makeStyles({
+    root: {
+        '& .MuiOutlinedInput-input': {
+            color: '#B4B4BB',
         },
-    });
-    const products = await graphQLClient.request(query);
-    return products;
-}
+        '& .MuiInputLabel-root': {
+            color: '#B4B4BB',
+        },
+        '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#B4B4BB',
+        },
+        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input': {
+            color: '#19191D',
+        },
+        '& .MuiInputLabel-root.Mui-focused': {
+            color: '#19191D',
+        },
+        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':
+            {
+                borderColor: '#19191D',
+            },
+    },
+    select: {
+        '& .MuiOutlinedInput-input': {
+            color: '#19191D',
+        },
+        '& .MuiInputLabel-root': {
+            color: '#B4B4BB',
+        },
+        '& .MuiOutlinedInput-root .MuiOutlinedInput-notchedOutline': {
+            borderColor: '#B4B4BB',
+            border: 'none',
+        },
+        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-input': {
+            color: '#19191D',
+        },
+        '& .MuiInputLabel-root.Mui-focused': {
+            color: '#19191D',
+        },
+        '& .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline':
+            {
+                borderColor: '#19191D',
+            },
+    },
+});
 
 function Home() {
+    const classes = useStyles();
+    const theme = useTheme();
+    const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
+
     const [allProducts, setAllProducts] = useState<ProductProps[]>([]);
     const [shoppingCart, setShoppingCart] = useState<ProductProps[]>([]);
     const [totalPrice, setTotalPrice] = useState(0);
@@ -77,23 +95,89 @@ function Home() {
     const [search, setSearch] = useState('');
     const [ratingStars, setRatingStars] = useState('1');
     const [sortBy, setSortBy] = useState('');
-    const [minPrice, setMinPrice] = useState(0);
-    const [maxPrice, setMaxPrice] = useState(1000);
+    const [minPrice, setMinPrice] = useState();
+    const [maxPrice, setMaxPrice] = useState();
     const [filteredProducts, setFilteredProducts] = useState<ProductProps[]>(
         [],
     );
     const [page, setPage] = useState(1);
     const [language, setLanguage] = useState('en-us');
+    const [inputValues, setInputValues] = useState<any>({});
+    const [selectedProducts, setSelectedProducts] = useState<any[]>([]);
+    const [amountProducts, setAmountProducts] = useState(0);
+
+    const handleInputValues = (
+        e: ChangeEvent<HTMLInputElement>,
+        product: ProductProps,
+    ) => {
+        const { name } = e.target;
+        const { value } = e.target;
+
+        setInputValues({
+            ...inputValues,
+            [name]: { ...product, amount: Number(value) },
+        });
+    };
+    const handleAddProduct = (product: ProductProps) => {
+        const listOfProducts: ProductProps[] = Object.values(inputValues);
+        setSelectedProducts([...selectedProducts, ...listOfProducts]);
+        const foundProductInSelectedProducts =
+            selectedProducts.length > 0 &&
+            selectedProducts.find(element => element.id === product.id);
+        const foundProductInInputValues =
+            listOfProducts.length > 0 &&
+            listOfProducts.find(element => element.id === product.id);
+
+        if (foundProductInSelectedProducts && foundProductInInputValues) {
+            foundProductInSelectedProducts.amount =
+                Number(foundProductInSelectedProducts.amount) +
+                Number(foundProductInInputValues.amount);
+
+            const listOfSelectedProducts = selectedProducts.filter(
+                item => item.id !== product.id,
+            );
+            setSelectedProducts([
+                ...listOfSelectedProducts,
+                foundProductInSelectedProducts,
+            ]);
+        } else if (foundProductInInputValues) {
+            setSelectedProducts([
+                ...selectedProducts,
+                foundProductInInputValues,
+            ]);
+        } else {
+            setSelectedProducts([
+                ...selectedProducts,
+                { ...product, amount: 1 },
+            ]);
+            setInputValues({
+                ...inputValues,
+                [product.id]: { ...product, amount: 1 },
+            });
+        }
+    };
 
     const filteredSearch = () => {
         if (language === 'en-us') {
-            const productFound = allProducts.filter((product: any) =>
-                product.title.startsWith(search.toLowerCase()),
+            const productFound = allProducts.filter(
+                (product: any) =>
+                    product.description
+                        .toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                    product.title
+                        .toLowerCase()
+                        .startsWith(search.toLowerCase()),
             );
             setFilteredProducts(productFound);
         } else {
-            const productFound = allProducts.filter((product: any) =>
-                product.titlePt.startsWith(search.toLowerCase()),
+            const productFound = allProducts.filter(
+                (product: any) =>
+                    product.descriptionPt
+                        .toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                    product.titlePt
+                        .toLowerCase()
+                        .startsWith(search.toLowerCase()),
             );
             setFilteredProducts(productFound);
         }
@@ -101,9 +185,18 @@ function Home() {
 
     const sorting = () => {
         let productList = allProducts;
-        productList = productList.filter(
-            product => product.price >= minPrice && product.price <= maxPrice,
-        );
+        productList = productList.filter(product => {
+            if (minPrice && !maxPrice) {
+                return product.price >= minPrice && product.price <= 1000;
+            }
+            if (!minPrice && maxPrice) {
+                return product.price >= 0 && product.price <= maxPrice;
+            }
+            if (minPrice && maxPrice) {
+                return product.price >= minPrice && product.price <= maxPrice;
+            }
+            return product.price >= 0 && product.price <= 1000;
+        });
         productList = productList.filter(
             product => Number(product.rating) >= Number(ratingStars),
         );
@@ -130,18 +223,16 @@ function Home() {
         if (value === 'Rating') {
             const sortByRating = filteredProducts.sort((a, b) => {
                 if (a.rating < b.rating) {
-                    return -1;
+                    return 1;
                 }
                 if (a.rating > b.rating) {
-                    return 1;
+                    return -1;
                 }
                 return 0;
             });
             setFilteredProducts(() => sortByRating);
         }
     };
-    const theme = useTheme();
-    const isMobile = useMediaQuery(theme.breakpoints.down('lg'));
 
     useEffect(() => {
         getData().then(res => {
@@ -151,12 +242,29 @@ function Home() {
     }, []);
 
     useEffect(() => {
-        const sum = shoppingCart.reduce(
-            (previousValue, { price }) => previousValue + Number(price),
-            0,
-        );
-        setTotalPrice(sum);
-    }, [shoppingCart]);
+        if (selectedProducts.length > 1) {
+            const sum = selectedProducts.reduce(
+                (total, object) =>
+                    total + Number(object.price) * Number(object.amount),
+                0,
+            );
+
+            const amount = selectedProducts.reduce(
+                (total, object) => total + Number(object.amount),
+                0,
+            );
+
+            setTotalPrice(sum);
+            setAmountProducts(amount);
+        } else {
+            const sum =
+                selectedProducts[0] &&
+                selectedProducts[0].price * selectedProducts[0].amount;
+            const amount = selectedProducts[0] && selectedProducts[0].amount;
+            setTotalPrice(sum);
+            setAmountProducts(amount);
+        }
+    }, [selectedProducts, inputValues]);
 
     useEffect(() => {
         filteredSearch();
@@ -216,14 +324,17 @@ function Home() {
                     sorting={sorting}
                     language={language}
                     setLanguage={setLanguage}
+                    classes={classes}
+                    amountProducts={amountProducts}
                 />
             )}
             <Stack
                 sx={{
-                    alignItems: { lg: 'flex-start', xs: 'center' },
-                    height: 83,
+                    alignItems: { lg: 'flex-end', xs: 'center' },
                     flexDirection: 'row',
+                    height: 65,
                     justifyContent: { lg: 'center', xs: 'space-between' },
+                    mb: { lg: 2, xs: 1 },
                 }}
             >
                 <FormControl size="small" sx={{ ml: 2 }}>
@@ -234,8 +345,13 @@ function Home() {
                         id="select-items"
                         label="SORT BY"
                         sx={{
-                            border: '1px solid black',
-                            minWidth: { lg: 206, xs: 184 },
+                            '.MuiSelect-select': {
+                                borderColor: 'black',
+                                border: 'none',
+                                fontSize: 14,
+                            },
+                            fontSize: 10,
+                            minWidth: { lg: 206, xs: 164 },
                         }}
                         value={sortBy}
                         onChange={event => {
@@ -267,11 +383,12 @@ function Home() {
             </Stack>
             <Stack
                 sx={{
+                    alignSelf: 'center',
                     flexDirection: 'row',
                     flexWrap: 'wrap',
-                    alignSelf: 'center',
-                    width: '100%',
+                    justifyContent: 'center',
                     maxWidth: 900,
+                    width: '100%',
                 }}
             >
                 {paginatedPages.items.map(product => (
@@ -287,10 +404,12 @@ function Home() {
                         shoppingCart={shoppingCart}
                         isMobile={isMobile}
                         language={language}
+                        handleInputValues={handleInputValues}
+                        handleAddProduct={handleAddProduct}
                     />
                 ))}
             </Stack>
-            <Stack direction="row" sx={{ justifyContent: 'center', mt: 4 }}>
+            <Stack direction="row" sx={{ justifyContent: 'center', mt: 2 }}>
                 <Pagination
                     count={paginatedPages.total}
                     color="primary"
@@ -298,10 +417,11 @@ function Home() {
                     variant="outlined"
                     onChange={paginationHandler}
                     sx={{
-                        '.Mui-selected:hover': {
-                            bgcolor: 'blue',
+                        '& .Mui-selected.MuiPaginationItem-page': {
+                            backgroundColor: colors.darkBlue,
                             color: colors.black,
                         },
+                        mt: { lg: 2, xs: 1 },
                         pb: { lg: 4, xs: 'none' },
                     }}
                 />
@@ -324,7 +444,7 @@ function Home() {
                     }
                 >
                     <Badge
-                        badgeContent={shoppingCart.length}
+                        badgeContent={amountProducts}
                         color="error"
                         sx={{
                             display: 'flex',
@@ -342,7 +462,7 @@ function Home() {
                             textTransform: 'none',
                         }}
                     >
-                        Sub total: {totalPrice.toFixed(2)} €
+                        Sub total: {totalPrice && totalPrice.toFixed(2)} €
                     </Typography>
                 </Button>
             )}
