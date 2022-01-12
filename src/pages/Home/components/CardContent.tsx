@@ -69,13 +69,13 @@ function CardContent({
                         icon={<CheckCircleIcon color="success" />}
                         sx={{
                             bgcolor: colors.white,
+                            color: colors.black,
                             left: '50%',
                             position: 'absolute',
                             right: '50%',
                             top: '2%',
                             transform: 'translate(-50%, 0%)',
                             width: '80%',
-                            color: colors.black,
                         }}
                     >
                         {language === 'en-us'
