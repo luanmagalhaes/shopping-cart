@@ -48,7 +48,10 @@ function MobileModal({
                     <Typography sx={{ fontWeight: 500, ml: 2, mt: 2 }}>
                         {language === 'en-us' ? 'FILTERS' : 'FILTROS'}
                     </Typography>
-                    <FormControl size="small" sx={{ m: 1, width: '40%' }}>
+                    <FormControl
+                        size="small"
+                        sx={{ height: 36, m: 1, width: 112 }}
+                    >
                         <TextField
                             id="outlined-adornment-amount"
                             label="€ Max"
@@ -60,7 +63,10 @@ function MobileModal({
                             }
                         />
                     </FormControl>
-                    <FormControl size="small" sx={{ m: 1, width: '40%' }}>
+                    <FormControl
+                        size="small"
+                        sx={{ height: 36, m: 1, width: 112 }}
+                    >
                         <TextField
                             id="outlined-adornment-amount"
                             label="€ Min"
@@ -72,7 +78,7 @@ function MobileModal({
                             }
                         />
                     </FormControl>
-                    <FormControl size="small" sx={{ ml: 1 }}>
+                    <FormControl size="small" sx={{ ml: 1, mt: 2 }}>
                         <InputLabel id="sorting-items" sx={{ fontSize: 10 }}>
                             {language === 'en-us' ? 'RATING' : 'CLASSIFICAÇÃO'}
                         </InputLabel>
@@ -80,8 +86,16 @@ function MobileModal({
                             id="select-items"
                             label="RATING"
                             sx={{
-                                border: '1px solid black',
-                                width: '50%',
+                                '.MuiSelect-select': {
+                                    borderColor: 'black',
+                                    border: 'none',
+                                    fontSize: 14,
+                                    fontWeight: 500,
+                                },
+                                border: 'none',
+                                fontSize: 10,
+                                height: 36,
+                                width: 136,
                             }}
                             value={ratingStars}
                             onChange={event =>
