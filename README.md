@@ -1,22 +1,40 @@
-# How to proceed:
+This is a project created in React by using TypeScript and Material UI.
+I have used GraphQL and JEST.
+Its concept is to provide an easy-to-use shopping cart experience to users.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+### How to begin:
 
-## Available Scripts
+1. First, clone the project
 
-In the project directory, you can run:
+2. Run 'yarn' to install the dependencies
 
-### `yarn start`
+3. Run 'yarn start'
 
-I have decided to use Material UI as the main library of the project.
+4. Check your browser
 
-Please go to neomacro-test.admin.datocms.com to test the API.
+5. The application will run
+
+### How to check the API:
+
+You may want to visit https://www.datocms.com/ to test the API.
+The steps are as follows:
+
+1. Visit the website
+
+2. Go to 'Enter dashboard'
+
+3. Use my login and password:
+
 login: m.agalhaes@hotmail.com
 password: Teste1234
 
-You can also go to https://shopping-cart-luan-magalhaes.netlify.app/ to check it online.
+You may want to go to https://shopping-cart-luan-magalhaes.netlify.app/ to check it online.
+I have uploaded it at Netlify.
 
-### `yarn test`
+### How to run the tests:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. Open terminal
+
+2. Run 'yarn test'
+
+I have learned a lot from it and its obstacles made me improve my skills.
