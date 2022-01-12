@@ -1,5 +1,13 @@
 import React from 'react';
-import { Alert, Button, Chip, Rating, Stack, Typography } from '@mui/material';
+import {
+    Alert,
+    Button,
+    Rating,
+    Stack,
+    Typography,
+    MenuItem,
+    Select,
+} from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import colors from '../../../assets/colors';
@@ -19,27 +27,29 @@ function CardContent({
     },
     clickedButtonToAddProduct,
     setClickedButtonToAddProduct = () => {},
+    handleAddProduct = () => {},
     addToCart = () => {},
     addedToCart,
-    shoppingCart = [],
     isMobile,
     language = '',
+    handleInputValues = () => {},
 }: any) {
     return (
         <Stack
             sx={{
                 alignItems: 'center',
-                border: '1px solid gray',
+                border: { lg: '1px solid #BCBDBC', xs: '1px solid #F0F0F0' },
                 borderRadius: 2,
                 boxSizing: 'content-box',
-                height: { lg: 484, xs: 'auto' },
+                flexBasis: '45%',
                 gap: 2,
+                height: { lg: 484, xs: 'auto' },
                 justifyContent: 'space-evenly',
+                maxWidth: 288,
                 ml: 1,
-                mt: 4,
-                pb: 1,
+                mt: 1,
                 position: 'relative',
-                width: { lg: 288, xs: 175 },
+                pb: 2,
             }}
         >
             {addedToCart === product.id && (
@@ -84,17 +94,6 @@ function CardContent({
                     width: isMobile ? '157px' : '256px',
                 }}
             >
-                {product.onsale && (
-                    <Chip
-                        label="ON SALE"
-                        color="success"
-                        size="small"
-                        sx={{
-                            bottom: '-10%',
-                            position: 'absolute',
-                        }}
-                    />
-                )}
                 <source srcSet={product.picturewebp.url} type="image/webp" />
                 <source srcSet={product.picture.url} type="image/png" />
                 <img
@@ -118,9 +117,8 @@ function CardContent({
                     direction="row"
                     sx={{
                         alignItems: 'center',
-                        height: 22,
-                        justifyContent: 'space-between',
-                        width: '90%',
+                        height: 32,
+                        maxWidth: { lg: 143, xs: 154 },
                     }}
                 >
                     <Rating
@@ -130,8 +128,9 @@ function CardContent({
                     />
                     <Typography
                         sx={{
-                            color: colors.darkGray,
-                            height: '100%',
+                            color: colors.lightGray,
+                            pl: 1,
+                            pt: 1,
                         }}
                     >
                         {product.rating.toFixed(1)}
@@ -149,29 +148,29 @@ function CardContent({
                 <Typography
                     sx={{
                         color: colors.black,
-                        fontSize: 16,
+                        fontSize: { lg: 24, xs: 16 },
                         fontWeight: 700,
                     }}
                 >
-                    $ {product.price.toFixed(2)}
+                    ${product.price.toFixed(2)}
                 </Typography>
-                <Typography
+                <Select
+                    name={product.id}
+                    onChange={e => handleInputValues(e, product)}
                     sx={{
                         alignItems: 'center',
-                        border: '1px solid black',
                         display: 'flex',
                         flexDirection: 'column',
-                        height: 32,
+                        height: { lg: 36, xs: 32 },
                         justifyContent: 'center',
-                        width: 64,
+                        pl: 2,
+                        width: { lg: 90, xs: 64 },
                     }}
                 >
-                    {shoppingCart.length > 0
-                        ? shoppingCart.filter(
-                              (obj: any) => obj.id === product.id,
-                          ).length
-                        : 0}
-                </Typography>
+                    {Array.from(Array(10).keys()).map(i => (
+                        <MenuItem value={i + 1}>{i + 1}</MenuItem>
+                    ))}
+                </Select>
             </Stack>
             {clickedButtonToAddProduct === product.id ? (
                 <Button
@@ -198,6 +197,7 @@ function CardContent({
                     variant="outlined"
                     sx={{ textTransform: 'none', width: '90%' }}
                     onClick={() => {
+                        handleAddProduct(product);
                         addToCart(product);
                         setClickedButtonToAddProduct(String(product.id));
                         setTimeout(
