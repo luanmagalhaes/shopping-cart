@@ -52,7 +52,7 @@ function MobileModal({
                     </Typography>
                     <FormControl
                         size="small"
-                        sx={{ height: 36, m: 1, width: 112 }}
+                        sx={{ height: 36, m: 1, ml: 2, width: 112 }}
                     >
                         <TextField
                             id="outlined-adornment-amount"
@@ -67,7 +67,7 @@ function MobileModal({
                     </FormControl>
                     <FormControl
                         size="small"
-                        sx={{ height: 36, m: 1, width: 112 }}
+                        sx={{ height: 36, m: 1, ml: 2, width: 112 }}
                     >
                         <TextField
                             id="outlined-adornment-amount"
@@ -80,7 +80,7 @@ function MobileModal({
                             }
                         />
                     </FormControl>
-                    <FormControl size="small" sx={{ ml: 1, mt: 2 }}>
+                    <FormControl size="small" sx={{ ml: 2, mt: 2 }}>
                         <InputLabel id="sorting-items" sx={{ fontSize: 10 }}>
                             {language === 'en-us' ? 'RATING' : 'CLASSIFICAÇÃO'}
                         </InputLabel>
