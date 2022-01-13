@@ -45,7 +45,9 @@ function MobileModal({
                 }}
             >
                 <Stack gap={2}>
-                    <Typography sx={{ fontWeight: 500, ml: 2, mt: 2 }}>
+                    <Typography
+                        sx={{ fontSize: 14, fontWeight: 500, ml: 2, mt: 2 }}
+                    >
                         {language === 'en-us' ? 'FILTERS' : 'FILTROS'}
                     </Typography>
                     <FormControl
@@ -136,6 +138,7 @@ function MobileModal({
                         <Button
                             variant="text"
                             sx={{
+                                fontSize: 16,
                                 fontWeight: 600,
                                 textTransform: 'none',
                             }}
@@ -150,6 +153,7 @@ function MobileModal({
                         <Button
                             variant="outlined"
                             sx={{
+                                fontSize: 16,
                                 fontWeight: 600,
                                 pl: 3,
                                 pr: 3,

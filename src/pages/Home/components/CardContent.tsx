@@ -70,6 +70,7 @@ function CardContent({
                         sx={{
                             bgcolor: colors.white,
                             color: colors.black,
+                            fontWeight: 400,
                             left: '50%',
                             position: 'absolute',
                             right: '50%',
@@ -108,7 +109,9 @@ function CardContent({
                 />
             </picture>
             <Stack sx={{ width: '90%' }}>
-                <Typography sx={{ height: 72, pb: 2 }}>
+                <Typography
+                    sx={{ fontSize: { lg: 16, xs: 14 }, height: 72, pb: 2 }}
+                >
                     {language === 'en-us'
                         ? product.description
                         : product.descriptionPt}
@@ -195,7 +198,7 @@ function CardContent({
             ) : (
                 <Button
                     variant="outlined"
-                    sx={{ textTransform: 'none', width: '90%' }}
+                    sx={{ fontSize: 14, textTransform: 'none', width: '90%' }}
                     onClick={() => {
                         handleAddProduct(product);
                         addToCart(product);

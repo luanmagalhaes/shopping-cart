@@ -110,6 +110,7 @@ function DesktopHead({
                         }
                         inputProps={{
                             background: colors.darkGray,
+                            fontSize: 16,
                             maxLength: 160,
                             placeholder:
                                 language === 'en-us'
@@ -153,7 +154,11 @@ function DesktopHead({
                                     setLanguage(event.target.value)
                                 }
                             >
-                                <MenuItem defaultChecked value="en-us">
+                                <MenuItem
+                                    defaultChecked
+                                    value="en-us"
+                                    sx={{ fontSize: 14, fontWeight: 500 }}
+                                >
                                     English
                                 </MenuItem>
                                 <MenuItem value="pt-br">Português</MenuItem>
@@ -252,11 +257,7 @@ function DesktopHead({
                     </FormControl>
                     <FormControl
                         size="small"
-                        sx={{
-                            height: 36,
-                            ml: 2,
-                            width: 136,
-                        }}
+                        sx={{ height: 36, ml: 2, width: 136 }}
                     >
                         <InputLabel id="sorting-items" sx={{ fontSize: 10 }}>
                             RATING
@@ -311,6 +312,7 @@ function DesktopHead({
                     <Button
                         variant="outlined"
                         sx={{
+                            fontSize: 16,
                             fontWeight: 600,
                             height: 40,
                             textTransform: 'none',

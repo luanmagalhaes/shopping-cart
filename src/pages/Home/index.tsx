@@ -372,6 +372,8 @@ function Home() {
                         color: colors.blue,
                         cursor: 'pointer',
                         display: { lg: 'none', xs: 'block' },
+                        fontSize: 14,
+                        fontWeight: 500,
                         mr: 2,
                     }}
                     onClick={() => {
@@ -435,6 +437,8 @@ function Home() {
                         height: 56,
                         mt: 4,
                         mb: 4,
+                        maxWidth: 343,
+                        position: 'relative',
                         width: '90%',
                     }}
                     onClick={() =>
@@ -448,7 +452,8 @@ function Home() {
                         color="error"
                         sx={{
                             display: 'flex',
-                            mr: 'auto',
+                            left: '10%',
+                            position: 'absolute',
                             zIndex: 0,
                         }}
                     >
@@ -458,11 +463,14 @@ function Home() {
                         sx={{
                             fontSize: 16,
                             fontWeight: 600,
-                            mr: '20%',
                             textTransform: 'none',
                         }}
                     >
-                        Sub total: {totalPrice && totalPrice.toFixed(2)} €
+                        Sub total:{' '}
+                        {totalPrice
+                            ? totalPrice.toFixed(2)
+                            : Number(0).toFixed(2)}{' '}
+                        €
                     </Typography>
                 </Button>
             )}

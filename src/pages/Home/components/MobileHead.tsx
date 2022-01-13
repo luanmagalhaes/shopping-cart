@@ -49,6 +49,7 @@ function MobileHead({
                     }
                     inputProps={{
                         background: colors.darkGray,
+                        fontSize: 14,
                         maxLength: 160,
                         placeholder:
                             language === 'en-us'
